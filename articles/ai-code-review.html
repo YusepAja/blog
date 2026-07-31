@@ -1,1 +1,164 @@
-<html><head><link rel='stylesheet' href='../css/style.css'></head><body><section><h1>AI Membuat Coding Lebih Cepat, Tapi Siapa yang Memastikan Benar?</h1><p>Isi artikel...</p></section></body></html>
+<html>
+<head>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<section>
+
+<h1>AI Membuat Coding Lebih Cepat, Tapi Siapa yang Memastikan Benar?</h1>
+
+<p><strong>Oleh Yusep Lukman</strong></p>
+
+<p>
+Semua orang sekarang berbicara tentang AI.<br>
+GitHub Copilot.<br>
+ChatGPT.<br>
+Claude.<br>
+Gemini.<br><br>
+
+Dalam hitungan menit, AI bisa membuat ratusan baris kode yang dulu membutuhkan waktu berjam-jam.<br>
+Produktivitas naik.<br><br>
+
+Tapi ada satu pertanyaan yang hampir tidak pernah dibahas.<br>
+
+<strong>Siapa yang bertanggung jawab memastikan semua kode itu benar?</strong>
+</p>
+
+<hr>
+
+<h2>AI Tidak Pernah Menjamin Kebenaran</h2>
+
+<p>
+Bayangkan sebuah perusahaan.<br><br>
+
+Developer menggunakan AI untuk membuat fitur baru.<br>
+QA melakukan testing sebentar karena deadline.<br>
+Manager ingin aplikasi segera dirilis.<br>
+Semua merasa pekerjaannya sudah selesai.<br><br>
+
+Lalu seminggu kemudian muncul bug yang menghapus data transaksi pelanggan.<br><br>
+
+Yang disalahkan siapa?<br>
+AI?<br>
+Tentu tidak.<br>
+Developer?<br>
+QA?<br><br>
+
+Atau sebenarnya tidak ada seorang pun yang memang diberi tanggung jawab untuk memverifikasi hasil AI?<br><br>
+
+Di sinilah masalah sebenarnya dimulai.
+</p>
+
+<hr>
+
+<h2>AI Mempercepat Produksi, Bukan Verifikasi</h2>
+
+<p>
+Selama puluhan tahun, bottleneck dalam software development adalah menulis kode.<br><br>
+
+Hari ini bukan lagi.<br><br>
+
+Sekarang bottleneck terbesar adalah memastikan kode yang dihasilkan benar.<br><br>
+
+AI bisa menghasilkan ribuan baris kode dalam beberapa menit.<br>
+
+Tetapi membaca, memahami, menguji, dan memverifikasi ribuan baris kode itu tetap membutuhkan manusia.<br><br>
+
+Dan manusia tidak ikut menjadi lebih cepat.
+</p>
+
+<hr>
+
+<h2>Teori Conway's Law</h2>
+
+<blockquote>
+"Sistem yang dibuat organisasi akan mencerminkan struktur komunikasi organisasi tersebut."
+</blockquote>
+
+<p>
+Jika tidak ada orang yang bertanggung jawab terhadap quality, maka biasanya kualitas juga tidak memiliki tempat dalam proses pengembangan.<br><br>
+
+Hasil akhirnya mudah ditebak.<br>
+
+Semua orang menganggap orang lain yang akan memeriksa.<br>
+Tidak ada yang benar-benar memeriksa.
+</p>
+
+<hr>
+
+<h2>Contoh Nyata</h2>
+
+<p>
+Saya pernah menemukan kasus sederhana.<br><br>
+
+Sebuah proses SQL Server berjalan lambat selama berbulan-bulan.<br>
+
+Berbagai solusi dicoba.
+</p>
+
+<ul>
+    <li>Upgrade server.</li>
+    <li>Tambah RAM.</li>
+    <li>Restart service.</li>
+    <li>Rebuild index.</li>
+    <li>Update statistics.</li>
+</ul>
+
+<p>
+Semuanya hanya sedikit membantu.<br><br>
+
+Ketika benar-benar dicek menggunakan Execution Plan dan DMV SQL Server, penyebabnya ternyata hanya sebuah query yang melakukan table scan karena index yang tepat belum dibuat.<br><br>
+
+Masalah yang berlangsung berbulan-bulan selesai dalam waktu kurang dari satu jam.<br><br>
+
+Bukan karena tekniknya rumit.<br>
+
+Tetapi karena akhirnya ada seseorang yang benar-benar meluangkan waktu untuk memverifikasi.
+</p>
+
+<hr>
+
+<h2>Lima Hal Sederhana yang Bisa Dilakukan Tim</h2>
+
+<ol>
+    <li>Tetapkan siapa yang bertanggung jawab melakukan review kode AI.</li>
+    <li>Sisihkan waktu khusus untuk verifikasi, bukan hanya coding.</li>
+    <li>Gunakan Static Analysis, Unit Test, dan Integration Test sebelum merge.</li>
+    <li>Ukur berapa lama bug ditemukan setelah kode dibuat.</li>
+    <li>Berikan apresiasi kepada orang yang menemukan masalah sebelum pelanggan menemukannya.</li>
+</ol>
+
+<hr>
+
+<h2>Penutup</h2>
+
+<p>
+AI bukan menggantikan developer.<br>
+AI juga bukan menggantikan reviewer.<br><br>
+
+Justru semakin canggih AI, semakin penting peran orang yang mampu memverifikasi hasilnya.<br><br>
+
+Karena pada akhirnya pelanggan tidak peduli apakah bug dibuat oleh manusia atau AI.<br>
+
+Yang mereka lihat hanya satu.<br>
+
+<strong>Apakah aplikasi bekerja dengan benar.</strong><br><br>
+
+Dan mungkin, di era AI ini, kemampuan yang paling berharga bukan lagi menulis kode paling cepat.<br>
+
+Melainkan menemukan kesalahan sebelum pengguna menemukannya.
+</p>
+
+<hr>
+
+<h2>Bagaimana menurut Anda?</h2>
+
+<p>
+Apakah di perusahaan Anda sudah ada proses khusus untuk memverifikasi kode yang dibuat AI, atau masih mengandalkan review manual seperti biasa?
+</p>
+
+</section>
+
+</body>
+</html>
