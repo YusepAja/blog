@@ -1,0 +1,1 @@
+console.log('Yusep Notes loaded');
