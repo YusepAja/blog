@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SQL Server Tips - Yusep Notes</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="nav">
+
+        <div class="logo">
+            YUSEP NOTES
+        </div>
+
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../articles.html">Articles</a>
+            <a href="../about.html">About</a>
+        </nav>
+
+    </header>
+
+
+    <!-- Article Header -->
+    <section class="hero">
+
+        <h1>
+            SQL Server Tips
+        </h1>
+
+        <p>
+            Catatan praktis dari pengalaman bekerja dengan SQL Server
+        </p>
+
+    </section>
+
+
+    <!-- Article -->
+    <main>
+
+        <article class="post">
+
+            <p>
+                SQL Server adalah salah satu teknologi database yang sudah
+                lama saya gunakan dalam pekerjaan sehari-hari.
+            </p>
+
+            <p>
+                Selama bertahun-tahun bekerja dengan aplikasi bisnis,
+                ERP, dan berbagai aplikasi internal perusahaan, saya
+                menemukan bahwa masalah database sering kali bukan hanya
+                tentang bagaimana membuat query yang benar.
+            </p>
+
+            <p>
+                Query bisa saja menghasilkan data yang benar, tetapi
+                belum tentu memiliki performa yang baik.
+            </p>
+
+            <p>
+                Di artikel ini saya ingin mengumpulkan beberapa tips dan
+                pengalaman praktis yang sering saya gunakan ketika bekerja
+                dengan SQL Server.
+            </p>
+
+
+            <hr>
+
+
+            <!-- Section 1 -->
+            <h2>
+                1. Jangan Langsung Menyalahkan SQL Server
+            </h2>
+
+            <p>
+                Ketika aplikasi terasa lambat, sering kali database
+                langsung menjadi tersangka pertama.
+            </p>
+
+            <p>
+                Padahal masalah bisa berasal dari banyak hal:
+            </p>
+
+            <ul>
+                <li>Query yang tidak optimal</li>
+                <li>Index yang tidak sesuai</li>
+                <li>Jumlah data yang terlalu besar</li>
+                <li>Blocking</li>
+                <li>Deadlock</li>
+                <li>Network</li>
+                <li>Program aplikasi</li>
+                <li>Hardware server</li>
+            </ul>
+
+            <p>
+                Karena itu langkah pertama bukan langsung mengubah query.
+                Cari tahu terlebih dahulu di mana masalah sebenarnya terjadi.
+            </p>
+
+
+            <!-- Section 2 -->
+            <h2>
+                2. Gunakan SELECT Hanya untuk Kolom yang Dibutuhkan
+            </h2>
+
+            <p>
+                Hindari kebiasaan menggunakan:
+            </p>
+
+<pre><code>SELECT *
+FROM Employee</code></pre>
+
+            <p>
+                jika sebenarnya hanya membutuhkan beberapa kolom.
+            </p>
+
+<pre><code>SELECT EmpID, EmpName, Department
+FROM Employee</code></pre>
+
+            <p>
+                Mengambil kolom yang diperlukan membuat query lebih jelas
+                dan dapat mengurangi data yang harus diproses serta
+                dikirim melalui network.
+            </p>
+
+
+            <!-- Section 3 -->
+            <h2>
+                3. WHERE Sangat Penting
+            </h2>
+
+            <p>
+                Salah satu kesalahan yang cukup sering ditemukan adalah
+                mengambil seluruh data kemudian melakukan filtering
+                di aplikasi.
+            </p>
+
+            <p>
+                Lebih baik filtering dilakukan langsung di SQL Server.
+            </p>
+
+<pre><code>SELECT EmpID, EmpName
+FROM Employee
+WHERE IsActive = 1</code></pre>
+
+            <p>
+                Database engine dapat melakukan filtering sebelum data
+                dikirim ke aplikasi.
+            </p>
+
+
+            <!-- Section 4 -->
+            <h2>
+                4. Hati-Hati dengan LIKE
+            </h2>
+
+            <p>
+                Query seperti berikut:
+            </p>
+
+<pre><code>SELECT *
+FROM Employee
+WHERE EmpName LIKE '%Yusep%'</code></pre>
+
+            <p>
+                dapat menjadi berat jika jumlah data sangat besar,
+                terutama ketika kolom tersebut tidak dapat menggunakan
+                index secara efektif.
+            </p>
+
+            <p>
+                Jika kebutuhan pencarian memungkinkan, kondisi seperti:
+            </p>
+
+<pre><code>WHERE EmpName LIKE 'Yusep%'</code></pre>
+
+            <p>
+                biasanya lebih bersahabat terhadap penggunaan index
+                dibandingkan pencarian dengan wildcard di awal.
+            </p>
+
+
+            <!-- Section 5 -->
+            <h2>
+                5. Gunakan Index dengan Bijak
+            </h2>
+
+            <p>
+                Index dapat membuat query menjadi jauh lebih cepat.
+                Tetapi terlalu banyak index juga bukan solusi.
+            </p>
+
+            <p>
+                Setiap INSERT, UPDATE, dan DELETE harus memperbarui
+                index yang berkaitan.
+            </p>
+
+            <p>
+                Karena itu index harus dibuat berdasarkan pola penggunaan
+                query, bukan sekadar menambahkan index sebanyak mungkin.
+            </p>
+
+<pre><code>CREATE INDEX IX_Employee_EmpID
+ON Employee(EmpID)</code></pre>
+
+
+            <!-- Section 6 -->
+            <h2>
+                6. Jangan Abaikan Execution Plan
+            </h2>
+
+            <p>
+                Kalau sebuah query terasa lambat, jangan hanya membaca
+                query-nya. Lihat juga execution plan.
+            </p>
+
+            <p>
+                Execution plan dapat membantu mengetahui bagaimana SQL
+                Server menjalankan query tersebut.
+            </p>
+
+            <p>
+                Dari execution plan kita dapat melihat operasi seperti:
+            </p>
+
+            <ul>
+                <li>Index Seek</li>
+                <li>Index Scan</li>
+                <li>Table Scan</li>
+                <li>Key Lookup</li>
+                <li>Sort</li>
+                <li>Hash Match</li>
+                <li>Nested Loops</li>
+            </ul>
+
+            <p>
+                Dari sini kita dapat mulai mencari bagian query yang
+                membutuhkan perhatian.
+            </p>
+
+
+            <!-- Section 7 -->
+            <h2>
+                7. Hati-Hati dengan Function pada Kolom
+            </h2>
+
+            <p>
+                Salah satu pola yang sering saya temui adalah penggunaan
+                function langsung pada kolom yang digunakan untuk filtering.
+            </p>
+
+<pre><code>WHERE YEAR(TglTransaksi) = 2026</code></pre>
+
+            <p>
+                Untuk data yang besar, pendekatan range tanggal sering
+                lebih baik.
+            </p>
+
+<pre><code>WHERE TglTransaksi >= '20260101'
+  AND TglTransaksi <  '20270101'</code></pre>
+
+            <p>
+                Selain lebih mudah dibaca, pendekatan ini juga dapat
+                memberikan kesempatan yang lebih baik bagi SQL Server
+                untuk menggunakan index pada kolom tanggal.
+            </p>
+
+
+            <!-- Section 8 -->
+            <h2>
+                8. Gunakan Parameter, Jangan Membentuk SQL Secara Sembarangan
+            </h2>
+
+            <p>
+                Dalam aplikasi seperti VB6, C#, atau aplikasi lainnya,
+                query sering dibentuk menggunakan concatenation string.
+            </p>
+
+<pre><code>SELECT *
+FROM Employee
+WHERE EmpID = '...'</code></pre>
+
+            <p>
+                Untuk aplikasi production, parameterized query lebih
+                aman dan lebih baik daripada memasukkan input user
+                langsung ke dalam SQL.
+            </p>
+
+            <p>
+                Selain masalah keamanan seperti SQL Injection, penggunaan
+                parameter juga membantu menjaga query tetap terstruktur.
+            </p>
+
+
+            <!-- Section 9 -->
+            <h2>
+                9. Gunakan Stored Procedure Jika Memang Dibutuhkan
+            </h2>
+
+            <p>
+                Stored Procedure sangat berguna untuk proses bisnis yang
+                kompleks dan sering digunakan.
+            </p>
+
+<pre><code>CREATE PROCEDURE sp_GetEmployee
+    @EmpID VARCHAR(20)
+AS
+BEGIN
+
+    SELECT
+        EmpID,
+        EmpName,
+        Department
+    FROM Employee
+    WHERE EmpID = @EmpID
+
+END</code></pre>
+
+            <p>
+                Namun jangan membuat semua hal menjadi Stored Procedure
+                hanya karena kebiasaan.
+            </p>
+
+            <p>
+                Pilih pendekatan berdasarkan kebutuhan aplikasi,
+                maintenance, keamanan, dan performa.
+            </p>
+
+
+            <!-- Section 10 -->
+            <h2>
+                10. COUNT(*) Tidak Selalu Masalah
+            </h2>
+
+            <p>
+                Banyak developer menghindari COUNT(*) karena menganggap
+                selalu berat.
+            </p>
+
+<pre><code>SELECT COUNT(*)
+FROM Employee</code></pre>
+
+            <p>
+                Sebenarnya performa COUNT bergantung pada kondisi data,
+                index, query plan, dan apa yang sebenarnya ingin dihitung.
+            </p>
+
+            <p>
+                Jangan mengoptimalkan berdasarkan asumsi.
+                Ukur terlebih dahulu.
+            </p>
+
+
+            <!-- Section 11 -->
+            <h2>
+                11. Gunakan SET NOCOUNT ON pada Stored Procedure
+            </h2>
+
+            <p>
+                Untuk Stored Procedure yang melakukan banyak operasi,
+                saya biasanya menggunakan:
+            </p>
+
+<pre><code>SET NOCOUNT ON;</code></pre>
+
+            <p>
+                Contohnya:
+            </p>
+
+<pre><code>CREATE PROCEDURE sp_ProcessEmployee
+AS
+BEGIN
+
+    SET NOCOUNT ON;
+
+    UPDATE Employee
+    SET IsActive = 1
+    WHERE IsActive = 0;
+
+END</code></pre>
+
+            <p>
+                Ini membantu mengurangi pesan row count yang tidak
+                diperlukan oleh aplikasi.
+            </p>
+
+
+            <!-- Section 12 -->
+            <h2>
+                12. Jangan Menganggap Query yang Cepat Selalu Bagus
+            </h2>
+
+            <p>
+                Ada query yang terlihat cepat ketika dijalankan sekali,
+                tetapi menjadi masalah ketika dipanggil ribuan kali
+                oleh aplikasi.
+            </p>
+
+            <p>
+                Misalnya sebuah query membutuhkan 50 ms.
+                Jika dipanggil 10.000 kali, total waktunya menjadi
+                sangat signifikan.
+            </p>
+
+            <p>
+                Karena itu performa harus dilihat dari konteks bagaimana
+                query tersebut digunakan oleh aplikasi.
+            </p>
+
+
+            <!-- Section 13 -->
+            <h2>
+                13. Blocking Bisa Membuat Query Terlihat Lambat
+            </h2>
+
+            <p>
+                Tidak semua query lambat karena query-nya buruk.
+                Bisa saja query sedang menunggu transaksi lain.
+            </p>
+
+            <p>
+                Salah satu hal yang perlu diperiksa ketika aplikasi
+                tiba-tiba lambat adalah blocking.
+            </p>
+
+<pre><code>EXEC sp_who2;</code></pre>
+
+            <p>
+                Untuk troubleshooting yang lebih mendalam, DMV SQL Server
+                juga sangat berguna untuk melihat session, request,
+                blocking dan resource yang sedang digunakan.
+            </p>
+
+
+            <!-- Section 14 -->
+            <h2>
+                14. Jangan Sembarangan Menggunakan NOLOCK
+            </h2>
+
+            <p>
+                NOLOCK sering digunakan dengan alasan query menjadi
+                lebih cepat.
+            </p>
+
+<pre><code>SELECT *
+FROM Employee WITH (NOLOCK)</code></pre>
+
+            <p>
+                Tetapi NOLOCK bukan obat untuk semua masalah performa.
+            </p>
+
+            <p>
+                Dengan NOLOCK, query dapat membaca data yang belum
+                committed atau mengalami fenomena pembacaan tertentu
+                yang mungkin tidak sesuai dengan kebutuhan bisnis.
+            </p>
+
+            <p>
+                Kalau data yang dibaca berkaitan dengan laporan keuangan,
+                payroll, inventory, atau proses bisnis penting,
+                pahami konsekuensinya sebelum menggunakan NOLOCK.
+            </p>
+
+
+            <!-- Section 15 -->
+            <h2>
+                15. Backup Itu Bukan Sekadar Formalitas
+            </h2>
+
+            <p>
+                Salah satu pelajaran paling penting dalam database adalah:
+            </p>
+
+            <blockquote>
+                Backup yang belum pernah diuji restore sebenarnya
+                belum bisa dianggap sebagai backup yang benar-benar siap.
+            </blockquote>
+
+            <p>
+                Backup harus memiliki strategi yang jelas dan,
+                yang tidak kalah penting, proses restore harus pernah
+                diuji.
+            </p>
+
+            <p>
+                Karena ketika database mengalami kerusakan,
+                yang dibutuhkan bukan hanya file backup tetapi
+                kemampuan untuk mengembalikan sistem.
+            </p>
+
+
+            <!-- Section 16 -->
+            <h2>
+                16. DBCC CHECKDB untuk Pemeriksaan Database
+            </h2>
+
+            <p>
+                SQL Server menyediakan DBCC CHECKDB untuk membantu
+                memeriksa consistency database.
+            </p>
+
+<pre><code>DBCC CHECKDB ('DatabaseName')
+WITH NO_INFOMSGS;</code></pre>
+
+            <p>
+                Ini sangat berguna sebagai bagian dari database
+                maintenance dan troubleshooting ketika muncul
+                indikasi corruption.
+            </p>
+
+            <p>
+                Jika ditemukan corruption, jangan langsung melakukan
+                tindakan destructive tanpa memahami kondisi database
+                dan backup yang tersedia.
+            </p>
+
+
+            <!-- Section 17 -->
+            <h2>
+                17. SQL Server Lama Masih Banyak Digunakan
+            </h2>
+
+            <p>
+                Salah satu hal menarik dalam dunia IT enterprise adalah
+                bahwa teknologi tidak selalu mati ketika versi barunya
+                muncul.
+            </p>
+
+            <p>
+                Saya masih menemukan aplikasi yang menggunakan
+                teknologi lama seperti VB6 dan SQL Server versi lama.
+            </p>
+
+            <p>
+                Sistem tersebut mungkin sudah berumur bertahun-tahun,
+                tetapi masih menjalankan proses bisnis penting.
+            </p>
+
+            <p>
+                Karena itu kemampuan memahami legacy system tetap
+                memiliki nilai.
+            </p>
+
+
+            <!-- Section 18 -->
+            <h2>
+                18. Jangan Takut dengan Database Besar
+            </h2>
+
+            <p>
+                Database besar bukan otomatis berarti database buruk.
+            </p>
+
+            <p>
+                Yang penting adalah bagaimana data tersebut dikelola:
+            </p>
+
+            <ul>
+                <li>Index</li>
+                <li>Statistics</li>
+                <li>Query design</li>
+                <li>Partitioning jika memang diperlukan</li>
+                <li>Maintenance</li>
+                <li>Storage</li>
+                <li>Backup strategy</li>
+                <li>Monitoring</li>
+            </ul>
+
+
+            <!-- Section 19 -->
+            <h2>
+                19. Ukur Sebelum Mengoptimalkan
+            </h2>
+
+            <p>
+                Ini mungkin salah satu prinsip paling penting dalam
+                performance tuning.
+            </p>
+
+            <blockquote>
+                Measure first. Optimize second.
+            </blockquote>
+
+            <p>
+                Jangan mengubah query hanya karena terlihat lebih pendek.
+                Jangan menambahkan index hanya karena query terasa lambat.
+                Jangan menggunakan NOLOCK hanya karena orang lain
+                menggunakannya.
+            </p>
+
+            <p>
+                Cari data dan bukti terlebih dahulu.
+            </p>
+
+
+            <!-- Section 20 -->
+            <h2>
+                20. SQL Server Bukan Hanya Tentang Query
+            </h2>
+
+            <p>
+                Setelah bertahun-tahun bekerja dengan database, saya
+                semakin melihat bahwa SQL Server bukan hanya tempat
+                menyimpan data.
+            </p>
+
+            <p>
+                Database adalah bagian dari sebuah sistem yang lebih besar.
+            </p>
+
+            <p>
+                Ada aplikasi di sisi depan, business process,
+                network, server, storage, user, dan tentu saja database.
+            </p>
+
+            <p>
+                Ketika terjadi masalah, semua bagian tersebut perlu
+                dilihat sebagai satu kesatuan.
+            </p>
+
+
+            <hr>
+
+
+            <!-- Conclusion -->
+            <h2>
+                Kesimpulan
+            </h2>
+
+            <p>
+                SQL Server adalah teknologi yang sangat luas.
+                Tidak ada satu tips yang bisa menyelesaikan semua
+                masalah performa database.
+            </p>
+
+            <p>
+                Pengalaman mengajarkan bahwa troubleshooting yang baik
+                membutuhkan kombinasi antara pemahaman SQL, database,
+                aplikasi, business process dan kemampuan membaca
+                masalah secara sistematis.
+            </p>
+
+            <p>
+                Bagi saya, menjadi developer bukan hanya tentang
+                membuat program berjalan.
+            </p>
+
+            <p>
+                Yang lebih penting adalah memahami <strong>mengapa</strong>
+                program tersebut bekerja, bagaimana data diproses,
+                dan bagaimana membuat sistem tetap dapat digunakan
+                dengan baik dalam jangka panjang.
+            </p>
+
+            <p>
+                Catatan ini akan terus saya update seiring dengan
+                pengalaman dan hal-hal baru yang saya temui.
+            </p>
+
+
+            <!-- Footer Article -->
+            <div class="post-footer">
+
+                <p>
+                    <strong>Yusep Notes</strong>
+                </p>
+
+                <p>
+                    Real Stories from Software Engineering
+                </p>
+
+                <p>
+                    SQL Server • VB6 • ERP • AI
+                </p>
+
+            </div>
+
+        </article>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        © 2026 Yusep Notes
+    </footer>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>
