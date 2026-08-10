@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Working with Legacy Applications - Yusep Notes</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="nav">
+
+        <div class="logo">
+            YUSEP NOTES
+        </div>
+
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../articles.html">Articles</a>
+            <a href="../about.html">About</a>
+        </nav>
+
+    </header>
+
+
+    <section class="hero">
+
+        <h1>
+            Working with Legacy Applications
+        </h1>
+
+        <p>
+            Memahami, memperbaiki dan menjaga aplikasi lama tetap hidup
+        </p>
+
+    </section>
+
+
+    <main>
+
+        <article class="post">
+
+            <p>
+                Legacy application adalah sesuatu yang sangat familiar
+                bagi banyak software engineer yang bekerja di dunia
+                enterprise.
+            </p>
+
+            <p>
+                Aplikasi tersebut mungkin sudah berumur 5, 10,
+                bahkan lebih dari 15 tahun.
+                Tetapi aplikasi tersebut masih digunakan setiap hari
+                karena masih menjalankan proses bisnis yang penting.
+            </p>
+
+            <p>
+                Dari pengalaman saya, bekerja dengan legacy application
+                membutuhkan pendekatan yang berbeda dibandingkan
+                membuat aplikasi baru.
+            </p>
+
+
+            <hr>
+
+
+            <h2>
+                Apa Itu Legacy Application?
+            </h2>
+
+            <p>
+                Secara sederhana, legacy application adalah aplikasi
+                lama yang masih digunakan dan masih memiliki nilai
+                bagi organisasi.
+            </p>
+
+            <p>
+                Legacy tidak selalu berarti aplikasi tersebut buruk.
+            </p>
+
+            <p>
+                Bisa saja aplikasinya stabil, cepat, dan sudah
+                memahami kebutuhan bisnis selama bertahun-tahun.
+            </p>
+
+
+            <h2>
+                Masalah Terbesar Bukan Selalu Source Code
+            </h2>
+
+            <p>
+                Ketika pertama kali menangani aplikasi lama,
+                developer sering langsung fokus pada source code.
+            </p>
+
+            <p>
+                Padahal ada hal yang jauh lebih penting:
+            </p>
+
+            <ul>
+                <li>Business process</li>
+                <li>Database structure</li>
+                <li>Relationship antar tabel</li>
+                <li>Integrasi dengan sistem lain</li>
+                <li>Server environment</li>
+                <li>Configuration</li>
+                <li>Dependency</li>
+                <li>Kebiasaan user</li>
+            </ul>
+
+            <p>
+                Tanpa memahami hal tersebut, perubahan kecil pada
+                aplikasi lama bisa menyebabkan masalah besar.
+            </p>
+
+
+            <h2>
+                Dokumentasi Sering Menjadi Masalah
+            </h2>
+
+            <p>
+                Salah satu tantangan legacy system adalah dokumentasi
+                yang tidak lengkap.
+            </p>
+
+            <p>
+                Developer yang membuat aplikasi mungkin sudah pindah,
+                struktur organisasi berubah, dan orang yang sekarang
+                melakukan maintenance harus memahami sistem dari nol.
+            </p>
+
+            <p>
+                Source code akhirnya menjadi salah satu dokumentasi
+                terpenting.
+            </p>
+
+
+            <h2>
+                Database Adalah Bagian Penting dari Legacy System
+            </h2>
+
+            <p>
+                Dalam banyak aplikasi bisnis lama, business logic
+                tidak hanya berada di source code.
+            </p>
+
+            <p>
+                Sebagian logic bisa berada di:
+            </p>
+
+            <ul>
+                <li>Stored Procedure</li>
+                <li>Trigger</li>
+                <li>View</li>
+                <li>Function</li>
+                <li>Job</li>
+                <li>Database constraint</li>
+            </ul>
+
+            <p>
+                Karena itu memahami database menjadi sangat penting
+                ketika melakukan maintenance aplikasi lama.
+            </p>
+
+
+            <h2>
+                Jangan Langsung Rewrite
+            </h2>
+
+            <p>
+                Salah satu keputusan yang sering terdengar mudah adalah:
+            </p>
+
+            <blockquote>
+                "Aplikasi ini sudah tua. Kita rewrite saja."
+            </blockquote>
+
+            <p>
+                Tetapi rewrite sebuah sistem enterprise bukan pekerjaan
+                kecil.
+            </p>
+
+            <p>
+                Kita harus memahami seluruh proses bisnis sebelum
+                mengganti sistem lama.
+            </p>
+
+            <p>
+                Jika tidak, aplikasi baru mungkin terlihat lebih modern
+                tetapi justru kehilangan beberapa proses penting yang
+                sebelumnya sudah berjalan dengan baik.
+            </p>
+
+
+            <h2>
+                Stabilitas Kadang Lebih Penting daripada Teknologi Baru
+            </h2>
+
+            <p>
+                Dalam dunia bisnis, aplikasi bukan dinilai hanya dari
+                seberapa modern teknologi yang digunakan.
+            </p>
+
+            <p>
+                Yang lebih penting adalah:
+            </p>
+
+            <ul>
+                <li>Apakah aplikasi stabil?</li>
+                <li>Apakah data aman?</li>
+                <li>Apakah proses bisnis berjalan?</li>
+                <li>Apakah user dapat bekerja?</li>
+                <li>Apakah sistem dapat dipelihara?</li>
+            </ul>
+
+            <p>
+                Teknologi terbaru belum tentu menjadi solusi terbaik
+                untuk semua kondisi.
+            </p>
+
+
+            <h2>
+                Troubleshooting Legacy Application
+            </h2>
+
+            <p>
+                Ketika aplikasi lama mengalami masalah, saya biasanya
+                mencoba membaginya menjadi beberapa bagian.
+            </p>
+
+<pre><code>Application
+     |
+     +---- UI
+     |
+     +---- Business Logic
+     |
+     +---- Database
+     |
+     +---- Network
+     |
+     +---- Operating System
+     |
+     +---- Hardware</code></pre>
+
+            <p>
+                Dengan membagi masalah seperti ini, proses troubleshooting
+                menjadi lebih terarah.
+            </p>
+
+
+            <h2>
+                Jangan Mengubah Terlalu Banyak Sekaligus
+            </h2>
+
+            <p>
+                Ketika memperbaiki aplikasi lama, perubahan kecil
+                biasanya lebih aman.
+            </p>
+
+            <p>
+                Ubah satu bagian, test, lalu lihat hasilnya.
+            </p>
+
+            <p>
+                Jika kita mengubah banyak bagian sekaligus dan kemudian
+                muncul error, akan lebih sulit menentukan perubahan
+                mana yang menyebabkan masalah.
+            </p>
+
+
+            <h2>
+                Legacy System Membutuhkan Kesabaran
+            </h2>
+
+            <p>
+                Ada kalanya kita menemukan source code yang sulit
+                dipahami, nama variable yang tidak jelas, query yang
+                panjang, atau struktur database yang sudah sangat
+                kompleks.
+            </p>
+
+            <p>
+                Reaksi pertama mungkin ingin menulis ulang semuanya.
+            </p>
+
+            <p>
+                Tetapi sering kali solusi terbaik adalah memahami
+                sistem tersebut sedikit demi sedikit.
+            </p>
+
+
+            <h2>
+                AI dan Legacy Application
+            </h2>
+
+            <p>
+                Saat ini AI juga mulai membantu pekerjaan dengan
+                legacy application.
+            </p>
+
+            <p>
+                AI dapat membantu menjelaskan source code lama,
+                membuat dokumentasi, mencari kemungkinan bug,
+                atau membantu memahami query yang kompleks.
+            </p>
+
+            <p>
+                Tetapi hasil AI tetap harus diperiksa.
+            </p>
+
+            <p>
+                AI tidak mengetahui seluruh business process perusahaan
+                hanya dari beberapa potongan source code.
+            </p>
+
+            <p>
+                Developer tetap harus menjadi orang yang memahami
+                konteks sistem.
+            </p>
+
+
+            <h2>
+                Skill yang Dibutuhkan
+            </h2>
+
+            <p>
+                Menurut pengalaman saya, developer yang bekerja dengan
+                legacy application membutuhkan beberapa kemampuan:
+            </p>
+
+            <ul>
+                <li>Programming</li>
+                <li>Database</li>
+                <li>Debugging</li>
+                <li>Problem solving</li>
+                <li>Business process analysis</li>
+                <li>System analysis</li>
+                <li>Communication dengan user</li>
+                <li>Patience</li>
+            </ul>
+
+
+            <h2>
+                Legacy Tidak Selalu Berarti Buruk
+            </h2>
+
+            <p>
+                Ada sistem lama yang justru sangat stabil karena telah
+                melewati berbagai macam kondisi selama bertahun-tahun.
+            </p>
+
+            <p>
+                Sistem tersebut telah diuji oleh penggunaan nyata,
+                bukan hanya oleh developer dan tester.
+            </p>
+
+            <p>
+                Karena itu saya percaya bahwa legacy application
+                seharusnya tidak langsung dianggap sebagai sesuatu
+                yang harus dibuang.
+            </p>
+
+
+            <hr>
+
+
+            <h2>
+                Kesimpulan
+            </h2>
+
+            <p>
+                Bekerja dengan legacy application memberikan pengalaman
+                yang berbeda dari sekadar membuat aplikasi baru.
+            </p>
+
+            <p>
+                Kita belajar memahami sistem yang sudah ada,
+                menghargai business process, membaca database,
+                melakukan troubleshooting dan membuat perubahan
+                dengan risiko seminimal mungkin.
+            </p>
+
+            <blockquote>
+                Jangan hanya bertanya bagaimana cara mengganti
+                aplikasi lama. Tanyakan terlebih dahulu mengapa
+                aplikasi tersebut masih dibutuhkan.
+            </blockquote>
+
+            <p>
+                Karena mungkin masalahnya bukan pada teknologinya,
+                tetapi pada bagaimana kita memahami sistem tersebut.
+            </p>
+
+
+            <div class="post-footer">
+
+                <p>
+                    <strong>Yusep Notes</strong>
+                </p>
+
+                <p>
+                    Real Stories from Software Engineering
+                </p>
+
+                <p>
+                    SQL Server • VB6 • ERP • AI
+                </p>
+
+            </div>
+
+        </article>
+
+    </main>
+
+
+    <footer>
+        © 2026 Yusep Notes
+    </footer>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>
